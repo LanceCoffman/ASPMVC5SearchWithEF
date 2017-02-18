@@ -6,15 +6,12 @@
         <h2>Requirements</h2>
         <ol type="1">
             <li>Connect through Entity Framework 6.0</li> 
-            <li>Build basic CRUD(Create, Read, Update, Delete) using Scaffolding (Add-Migrations,Update Migrations)</li> 
-            <li>Build Search View to search by Description, also include paging.</li> 
+            <li>Using Scaffolding to create routine database methods (Edit, Delete, Detail Views) to Index View</li> 
+            <li>Add Search by Order Id on same on Index view</li> 
         </ol>
 
         <h2>Completed Work</h2>
-        <ol type="1">
-            <li> Nuget Package was installed for Entity Framework, uses DBSet in DataContext Folder
-            <li> @Html.ActionLink("View CRUD Methods created from Scaffolding", "Index", "SalesLineItems") </li>
-            <li> @Html.ActionLink("View Search View, including paging", "Index", "SalesLineItems")</li>
-       </ol>
+        <p>Note: Nuget Package was installed for Entity Framework, uses DBSet in DataContext Folder</p> 
+        <p><a href=@Url.Action("Index", "SalesLineItems") target="_blank" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-globe"></span> View Demo</a></p>
 </div>
 </div>

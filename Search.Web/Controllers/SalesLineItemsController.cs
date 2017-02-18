@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Search.Entities;
 using Search.Web.DataContexts;
@@ -18,19 +15,25 @@ namespace Search.Web.Controllers
         private SalesLineItemDb db = new SalesLineItemDb();
 
         // GET: SalesLineItems
-        public async Task<ActionResult> Index()
+        public ActionResult Index(string orderId)
         {
-            return View(await db.SalesOrderItems.ToListAsync());
+            //if a user choose the radio button option as Subject  
+            if (string.IsNullOrEmpty(orderId))
+            {
+                return View(db.SalesOrderItems.ToList());
+            }
+
+            return View(db.SalesOrderItems.Where(x => x.OrderId.ToString() == orderId).ToList());
         }
 
         // GET: SalesLineItems/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SalesLineItem salesLineItem = await db.SalesOrderItems.FindAsync(id);
+            SalesLineItem salesLineItem = db.SalesOrderItems.Find(id);
             if (salesLineItem == null)
             {
                 return HttpNotFound();
@@ -62,13 +65,13 @@ namespace Search.Web.Controllers
         }
 
         // GET: SalesLineItems/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SalesLineItem salesLineItem = await db.SalesOrderItems.FindAsync(id);
+            SalesLineItem salesLineItem = db.SalesOrderItems.Find(id);
             if (salesLineItem == null)
             {
                 return HttpNotFound();
@@ -81,25 +84,25 @@ namespace Search.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,ItemName,Price,Qty,OrderId,CompanyId")] SalesLineItem salesLineItem)
+        public ActionResult Edit([Bind(Include = "Id,ItemName,Price,Qty,OrderId,CompanyId")] SalesLineItem salesLineItem)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(salesLineItem).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(salesLineItem);
         }
 
         // GET: SalesLineItems/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SalesLineItem salesLineItem = await db.SalesOrderItems.FindAsync(id);
+            SalesLineItem salesLineItem = db.SalesOrderItems.Find(id);
             if (salesLineItem == null)
             {
                 return HttpNotFound();
@@ -114,7 +117,7 @@ namespace Search.Web.Controllers
         {
             SalesLineItem salesLineItem = await db.SalesOrderItems.FindAsync(id);
             db.SalesOrderItems.Remove(salesLineItem);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

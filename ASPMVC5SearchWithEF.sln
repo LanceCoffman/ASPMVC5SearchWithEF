@@ -3,7 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Search.Web", "Search.Web\Search.Web.csproj", "{D55C6D2E-861B-44E9-8B37-F11334C97E2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Search.Entities", "Search.Entities\Search.Entities.csproj", "{B66002DD-AC2A-4271-8029-AB2BB24256F9}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D55C6D2E-861B-44E9-8B37-F11334C97E2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D55C6D2E-861B-44E9-8B37-F11334C97E2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D55C6D2E-861B-44E9-8B37-F11334C97E2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D55C6D2E-861B-44E9-8B37-F11334C97E2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B66002DD-AC2A-4271-8029-AB2BB24256F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B66002DD-AC2A-4271-8029-AB2BB24256F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B66002DD-AC2A-4271-8029-AB2BB24256F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B66002DD-AC2A-4271-8029-AB2BB24256F9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

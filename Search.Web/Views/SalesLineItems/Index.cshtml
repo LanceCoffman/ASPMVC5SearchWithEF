@@ -1,5 +1,6 @@
 ﻿
-@model IEnumerable<Search.Entities.SalesLineItem>
+@using Search.Web.Models
+@model SalesLineItemsIndexViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -16,13 +17,20 @@
     });
 </script>
 
-@*@Html.BeginForm is used to add a form in an Html document * @@ * Pass the action name in the first parameter, controller name in the second parameter and specify the form request type as get *@
 
 @using (Html.BeginForm("Index", "SalesLineItems", FormMethod.Get))
 {
-    //the following are search options
-    <b> Search Order Id:</b>@Html.TextBox("orderId") 
-}
+    <p></p>
+    <p></p>
+    <b> Search Option(you can hit enter key): </b>
+    @Html.RadioButton("option", "ItemName") <text>ItemName</text>
+    @Html.RadioButton("option", "Company") <text> Company </text>
+    @Html.RadioButton("option", "Price")<text>Price</text> 
+    @Html.TextBox("search") 
+    <input type = "submit"
+    name = "submit"
+    value = "Search" />
+    }
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -30,24 +38,24 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ItemName)
+            @Html.DisplayNameFor(model => Model.Items.FirstOrDefault().ItemName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Price)
+            @Html.DisplayNameFor(model => Model.Items.FirstOrDefault().Price)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Qty)
+            @Html.DisplayNameFor(model => Model.Items.FirstOrDefault().Qty)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OrderId)
+            @Html.DisplayNameFor(model => Model.Items.FirstOrDefault().OrderId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CompanyId)
+            @Html.DisplayNameFor(model => Model.Items.FirstOrDefault().CompanyId)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Items) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.ItemName)
@@ -73,4 +81,37 @@
 }
 
 </table>
+
+				<!-- pager -->
+@if (Model.Pager.EndPage > 1)
+{
+    <ul class="pagination">
+        @if (Model.Pager.CurrentPage > 1)
+        {
+            <li>
+                <a href="~/SalesLineItems/Index">First</a>
+            </li>
+            <li>
+                <a href="~/SalesLineItems/Index?option=@(Model.Option)&search=@(Model.Search)&page=@(Model.Pager.CurrentPage - 1)">Previous</a>
+            </li>
+        }
+
+        @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+        {
+            <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                <a href="~/SalesLineItems/Index?option=@(Model.Option)&search=@(Model.Search)&page=@page">@page</a>
+            </li>    
+        }
+
+        @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+        {
+            <li>
+                <a href="~/SalesLineItems/Index?option=@(Model.Option)&search=@(Model.Search)&page=@(Model.Pager.CurrentPage + 1)">Next</a>
+            </li>
+            <li>
+                <a href="~/SalesLineItems/Index?option=@(Model.Option)&search=@(Model.Search)&page=@(Model.Pager.TotalPages)">Last</a>
+            </li>
+        }
+    </ul>
+}
 <br />

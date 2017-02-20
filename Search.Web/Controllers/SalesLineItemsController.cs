@@ -6,25 +6,50 @@ using System.Net;
 using System.Web.Mvc;
 using Search.Entities;
 using Search.Web.DataContexts;
-
+using System.Collections.Generic;
+using Search.Web.Models;
 
 namespace Search.Web.Controllers
 {
     public class SalesLineItemsController : Controller
     {
         private SalesLineItemDb db = new SalesLineItemDb();
+        private List<SalesLineItem> salesLineItems = new List<SalesLineItem>();
 
         // GET: SalesLineItems
-        public ActionResult Index(string orderId)
+        public ActionResult Index(string option, string search, int? page)
         {
+
             //if a user choose the radio button option as Subject  
-            if (string.IsNullOrEmpty(orderId))
+            if (option == "ItemName")
             {
-                return View(db.SalesOrderItems.ToList());
+                salesLineItems = db.SalesOrderItems.Where(x => x.ItemName.StartsWith(search) || search == null).ToList();
+            }
+            else if (option == "Company")
+            {
+                salesLineItems = db.SalesOrderItems.Where(x => x.CompanyId.ToString() == search || search == null).ToList();
+            }
+            else if (option == "Price")
+            {
+                salesLineItems = db.SalesOrderItems.Where(x => x.Price.ToString() == search || search == null).ToList();
+            }
+            else
+            {
+                salesLineItems = db.SalesOrderItems.ToList();
             }
 
-            return View(db.SalesOrderItems.Where(x => x.OrderId.ToString() == orderId).ToList());
-        }
+            var pager = new Pager(option, search, salesLineItems.Count(), page);
+            var viewModel = new SalesLineItemsIndexViewModel
+            {
+                Items = salesLineItems.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                Pager = pager,
+                Option=option,
+                Search=search
+            };
+
+            return View(viewModel);
+       }
+
 
         // GET: SalesLineItems/Details/5
         public ActionResult Details(int? id)
